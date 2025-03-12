@@ -7,14 +7,15 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import SwitchButton from "@/components/SwitchButton"
 import WaveAnimation from "@/components/Hallofwaves"
+import axios from "axios"
 
-export default function Carousel() {
+export default function Demo() {
   // Start with the middle card selected
   const [selectedIndex, setSelectedIndex] = useState(2)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false) // For play/pause functionality
-  const [isSwitchedOn, setIsSwitchedOn] = useState(false) // For the switch button functionality
-  const [isGradient, setIsGradient] = useState(false); // State managed in parent
+  const [isSwitchedOn, setIsSwitchedOn] = useState(false) // For the switch button functionality 
+  const [isRecording, setIsRecording] = useState(false); 
   const noisyAudioRef = useRef<HTMLAudioElement>(null)
   const clearAudioRef = useRef<HTMLAudioElement>(null)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
@@ -27,6 +28,31 @@ export default function Carousel() {
     { id: 4, title: "Integration", description: "Connect with your favorite tools", img:"/man.jpg" },
     { id: 5, title: "Security", description: "Keep your data protected", img:"/robot.jpg" },
   ]
+
+
+  const startRecording = async () => {
+    try {
+      setIsRecording(true);
+      await axios.post("/api/start-recording"); // Replace with your API endpoint
+      console.log("Recording started!");
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+  };
+
+  // API to stop recording
+  const stopRecording = async () => {
+    try {
+      setIsRecording(false);
+      await axios.post("/api/stop-recording"); // Replace with your API endpoint
+      console.log("Recording stopped!");
+    } catch (error) {
+      console.error("Error stopping recording:", error);
+    }
+  };
+
+
+
   useEffect(() => {
     const noisyAudio = noisyAudioRef.current
     const clearAudio = clearAudioRef.current
@@ -104,7 +130,7 @@ export default function Carousel() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  bg-transparent  p-4 z-50">
-              <WaveAnimation isGradient={isGradient} />
+              <WaveAnimation isGradient={isSwitchedOn} />
       <h2 className="text-3xl font-bold text-slate-800 mb-8">Our Features</h2>
 
       <div className="relative w-full max-w-5xl overflow-hidden px-4">
@@ -194,7 +220,7 @@ export default function Carousel() {
 
         {/* Switch Button */}
      
-        <SwitchButton setIsGradient={setIsGradient} />
+        <SwitchButton setIsGradient={setIsSwitchedOn} />
       </div>
 
       {/* Audio Files */}
@@ -210,7 +236,27 @@ export default function Carousel() {
       />
       
       
-      <Button className="mt-5">Try Your Own Voice</Button>
+     {/* Recording Button Logic */}
+     <div className="flex space-x-4 mt-8 px-5 bg-white  w-80 h-16 rounded-full   items-center justify-center">
+        {!isRecording ? (
+          <Button
+            onClick={startRecording}
+            className="p-3 bg-green-600 text-white rounded shadow-md transition-colors duration-200"
+          >
+            Try Your Own Voice
+          </Button>
+        ) : (
+          <>
+            <Button
+              onClick={stopRecording}
+              className="p-3 bg-red-600 text-white rounded shadow-md transition-colors duration-200"
+            >
+              Stop Recording
+            </Button>
+            <span className="text-sm text-gray-600">Recording...</span>
+          </>
+        )}
+      </div>
     </div>
   )
 }

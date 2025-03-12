@@ -7,12 +7,10 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
    
- <>
- 
-          
-       <div className=" flex items-center w-full flex-col">
-        <Header/>
-       <GlobeAnimation/>
+ <>     
+     <div className=" flex items-center w-full flex-col">
+      <Header/>
+      <GlobeAnimation/>
        
        </div>
  </>
