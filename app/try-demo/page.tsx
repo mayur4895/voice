@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import SwitchButton from "@/components/SwitchButton"
+import WaveAnimation from "@/components/Hallofwaves"
 
 export default function Carousel() {
   // Start with the middle card selected
@@ -12,7 +14,7 @@ export default function Carousel() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false) // For play/pause functionality
   const [isSwitchedOn, setIsSwitchedOn] = useState(false) // For the switch button functionality
-
+  const [isGradient, setIsGradient] = useState(false); // State managed in parent
   const noisyAudioRef = useRef<HTMLAudioElement>(null)
   const clearAudioRef = useRef<HTMLAudioElement>(null)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
@@ -102,6 +104,7 @@ export default function Carousel() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  bg-transparent  p-4 z-50">
+              <WaveAnimation isGradient={isGradient} />
       <h2 className="text-3xl font-bold text-slate-800 mb-8">Our Features</h2>
 
       <div className="relative w-full max-w-5xl overflow-hidden px-4">
@@ -190,23 +193,8 @@ export default function Carousel() {
         </button>
 
         {/* Switch Button */}
-        <div className="flex items-center">
-          <label className="mr-2 text-slate-700">Switch</label>
-          <button
-            onClick={() => setIsSwitchedOn((prev) => !prev)}
-            className={cn(
-              "w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300",
-              isSwitchedOn ? "bg-green-500" : "bg-gray-300"
-            )}
-          >
-            <div
-              className={cn(
-                "w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-300",
-                isSwitchedOn ? "translate-x-6" : "translate-x-0"
-              )}
-            />
-          </button>
-        </div>
+     
+        <SwitchButton setIsGradient={setIsGradient} />
       </div>
 
       {/* Audio Files */}
