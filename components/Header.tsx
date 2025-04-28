@@ -4,6 +4,7 @@ import { Home, Info, Phone, FileText, BookOpen, } from "lucide-react"
  
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
  
 
 export default function Header() { 
@@ -39,7 +40,7 @@ export default function Header() {
         <div className="font-bold text-lg mr-20 w-12">Anshika</div>
 
         {/* Desktop Navigation */}
-        <nav className="  ml-10 flex items-center space-x-1">
+        <nav className="  ml-10 flex items-center space-x-1 mr-9">
           {navMenu.map((item, index) => (
             <Button
               key={index}
@@ -51,7 +52,21 @@ export default function Header() {
               <Link href="#" className=" cursor-default">{item.label}</Link>
             </Button>
           ))}
-        </nav>
+          </nav>
+          <div className="ml-auto">
+                <SignedOut>
+            <div className="flex gap-3">
+              <SignInButton />
+              <SignUpButton />
+              </div>
+            </SignedOut>
+
+          <SignedIn>
+              <UserButton />
+            </SignedIn>
+            </div>
+
+        
  </div>
        
     </header>

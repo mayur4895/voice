@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const font = Poppins({
   weight:['200','400','500','600','700','800'],
@@ -19,6 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+        <ClerkProvider>
     <html lang="en">
       <body
         className={`${font.className} antialiased`}
@@ -26,5 +28,6 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+    </ClerkProvider>
   );
 }

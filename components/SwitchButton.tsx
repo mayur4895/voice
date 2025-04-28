@@ -11,14 +11,14 @@ export default function SwitchButton({
 
   const handleSwitch = () => {
     setIsSwitchedOn((prev) => !prev);
-    setIsGradient(!isSwitchedOn); // Update parent's isGradient
+    setIsGradient(!isSwitchedOn); 
   };
 
   return (
      
       
       <div className="flex items-center">
-        <label className="mr-2 text-slate-700">Sitch</label>
+        <label className="mr-2 text-slate-700">SWitch</label>
         <button
           onClick={handleSwitch}
           className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
